@@ -1,4 +1,9 @@
-1.find
-2.top
-3.exit
-4.diff
+1.ls
+2.mv
+3.chmod
+4.pwd
+5.ping
+6.find
+7.top
+8.exit
+9.diff
