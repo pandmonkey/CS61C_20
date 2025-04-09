@@ -1,7 +1,7 @@
 .data
 .word 2, 4, 6, 8
 n: .word 9
-
+# n store in 0x10000010 val = 9
 .text
 main:
     add t0, x0, x0
@@ -21,3 +21,4 @@ finish:
     ecall # print integer ecall
     addi a0, x0, 10
     ecall # terminate ecall
+# 斐波那契数列前9项 循环版

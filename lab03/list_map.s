@@ -15,8 +15,10 @@ main:
     # load your args
     add a0, s0, x0  # load the address of the first node into a0
 
+    # a0: 存放第一个node的地址 
     # load the address of the function in question into a1 (check out la on the green sheet)
     ### YOUR CODE HERE ###
+    la a1, square #加载函数地址
 
     # issue the call to map
     jal ra, map
@@ -34,43 +36,64 @@ main:
 map:
     # Prologue: Make space on the stack and back-up registers
     ### YOUR CODE HERE ###
-
+    addi sp, sp, -16
+    sw s0, 0(sp)
+    sw s1, 4(sp)
+    sw s2, 8(sp)
+    sw ra, 12(sp)
+    ### s0 s1
     beq a0, x0, done    # If we were given a null pointer (address 0), we're done.
 
     add s0, a0, x0  # Save address of this node in s0
     add s1, a1, x0  # Save address of function in s1
 
+    # 函数中变量分布：
+    # 本 node : s0
+    # square 函数地址: s1
+
     # Remember that each node is 8 bytes long: 4 for the value followed by 4 for the pointer to next.
     # What does this tell you about how you access the value and how you access the pointer to next?
+    
+    # (pointer) --> value
+    # 4(pointer) --> next node
 
     # load the value of the current node into a0
     # THINK: why a0?
     ### YOUR CODE HERE ###
-
+    lw a0, 0(s0) # 加载value
+    
     # Call the function in question on that value. DO NOT use a label (be prepared to answer why).
     # What function? Recall the parameters of "map"
     ### YOUR CODE HERE ###
+    jalr s1 #执行函数
 
     # store the returned value back into the node
     # Where can you assume the returned value is?
     ### YOUR CODE HERE ###
-
+    sw a0, 0(s0) #存返回值
     # Load the address of the next node into a0
     # The Address of the next node is an attribute of the current node.
     # Think about how structs are organized in memory.
     ### YOUR CODE HERE ###
+    lw a0, 4(s0)
 
     # Put the address of the function back into a1 to prepare for the recursion
     # THINK: why a1? What about a0?
     ### YOUR CODE HERE ###
+    mv a1, s1
 
     # recurse
     ### YOUR CODE HERE ###
+    jal ra, map
 
 done:
     # Epilogue: Restore register values and free space from the stack
     ### YOUR CODE HERE ###
-
+    lw s0, 0(sp)
+    lw s1, 4(sp)
+    lw s2, 8(sp)
+    lw ra, 12(sp)
+    addi sp, sp, 16
     jr ra # Return to caller
 
 square:
