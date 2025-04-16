@@ -14,3 +14,8 @@ int main() {
     }
     return sum;
 }
+
+//最终 t0 -- k
+//sum s0 中
+// source : s1
+// dest s2
